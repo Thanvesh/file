@@ -1,0 +1,161 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    margin: 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.breadcrumb-container {
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.breadcrumb-item {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb-item:hover {
+    color: #0056b3;
+}
+
+.explorer-container {
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+}
+
+.folder-view,
+.selection-view {
+    width: 50%;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: white;
+}
+
+.folder-view {
+    border-right: 1px solid #e9ecef;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+ul li:hover {
+    background-color: #f1f1f1;
+    transform: translateY(-2px);
+}
+
+.folder-item {
+    cursor: pointer;
+    flex-grow: 1;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.folder-item:hover {
+    color: #0056b3;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.selected-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    margin: 5px 0;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.selected-item:hover {
+    background-color: #dcdcdc;
+    transform: translateY(-2px);
+}
+
+.select-all-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.select-all-label {
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+/* Folder and File Icons */
+.folder-icon::before, .file-icon::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.folder-icon::before {
+    background-image: url('path/to/folder-icon.png'); /* Add your folder icon path */
+}
+
+.file-icon::before {
+    background-image: url('path/to/file-icon.png'); /* Add your file icon path */
+}
+
+ul li:hover::before {
+    transform: translateY(-2px);
+}
+
+/* Floating Effects */
+.folder-item, .selected-item {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.folder-item:hover, .selected-item:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
