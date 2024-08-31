@@ -8,7 +8,6 @@ document.getElementById('pick-directory').onclick = async () => {
     folderStructure = await convertDirectoryToJSON(directoryHandle, 'root');
     updateBreadcrumb();
     renderFolderView();
-    console.log(JSON.stringify(folderStructure, null, 2)); // To view the JSON structure in the console
 };
 
 
@@ -59,7 +58,8 @@ function updateBreadcrumb() {
 }
 
 function navigateTo(index) {
-    currentPath = currentPath.slice(0, index + 1);
+    currentPath = currentPath.slice(0, index+1);
+
     renderFolderView();
 }
 
@@ -80,14 +80,21 @@ async function renderFolderView() {
     if (!currentDirNode) return;
 
     selectAllCheckbox.onchange = (e) => handleSelectAllChange(e, currentDirNode.children);
+    selectAllLi.classList.add('select-all-label');
+
+
     selectAllLi.appendChild(selectAllCheckbox);
     selectAllLi.appendChild(document.createTextNode('Select All'));
+
+
     folderList.appendChild(selectAllLi);
 
     for (const item of currentDirNode.children) {
         const li = document.createElement('li');
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
+
+        
 
         checkbox.checked = item.selected;
         checkbox.indeterminate = item.indeterminate;
@@ -96,13 +103,27 @@ async function renderFolderView() {
         li.appendChild(checkbox);
 
         const span = document.createElement('span');
-        span.textContent = item.name;
-        span.classList.add('folder-item');
+
+        const icon = document.createElement('i');
+        icon.classList.add('fa', item.type === 'file' ? 'fa-file' : 'fa-folder-open');
+
+        // Append the icon to the span
+        span.appendChild(icon);
+
+        // Append the file/folder name to the span
+        span.appendChild(document.createTextNode('   ' +" "+ item.name));
+
+        
+
+        // Append the icon to the span
+        span.classList.add('folder-item', item.type === 'file' ? 'fileicon' : 'foldericon');
+        
         span.onclick = async () => {
             if (item.type === 'directory') {
                 currentPath.push({ name: item.name, handle: item.handle });
-                renderFolderView();
                 updateBreadcrumb();
+                renderFolderView();
+
             }
         };
 
@@ -262,7 +283,6 @@ async function handleCheckboxChange(event, item) {
 
 function selectItemAndContents(item, forceSelect = false) {
     const node = findNodeByPath(folderStructure, item.path);
-    console.log(node)
     if (node) {
         // Ensure the folder is not indeterminate
         node.selected = true;
@@ -377,14 +397,17 @@ function renderSelectedNodes(nodes, parentElement) {
 }
 
 async function handleRightCheckboxChange(event, node) {
-    console.log(node);
     if (event.target.checked) {
         await selectItemAndContents(node); // Select item and its contents
+
     } else {
         deselectItemAndContents(node);
     }
- 
 
+    updateSelectAllRightState()
+
+
+ 
 
 }
 
@@ -393,7 +416,6 @@ document.getElementById('select-all-right').onclick = (e) => {
 
     const check = e.target.checked;
 
-    console.log(check)
     const selectedList = document.getElementById('selected-list');
     const checkboxes = selectedList.querySelectorAll('input[type="checkbox"]');
     
@@ -410,6 +432,7 @@ document.getElementById('select-all-right').onclick = (e) => {
             }
         }
     });
+    
 
 
 
@@ -421,16 +444,16 @@ document.getElementById('remove-selected').onclick = () => {
     const selectedList = document.getElementById('selected-list');
     const checkboxes = selectedList.querySelectorAll('input[type="checkbox"]');
     
-    checkboxes.forEach(async (checkbox) => {
+    checkboxes.forEach( checkbox => {
         if (checkbox.checked) {
             const itemPath = checkbox.nextSibling.textContent;
             const item = findNodeByPath(folderStructure, itemPath);
-            if (item) {
+            if (item.checked) {
                 deselectItemAndContents(item);
             }
         }
     });
-    updateSelectionStates()
+    
     renderFolderView();
     renderSelectedView() 
 }

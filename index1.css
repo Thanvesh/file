@@ -1,15 +1,19 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    background-color: #464040;
     color: #333;
+    height: 100vh;
+    width: 100vw;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 button {
     margin: 10px;
     padding: 8px 16px;
-    background-color: #007bff;
+    background-color: #b9bbbc;
     color: white;
     border: none;
     border-radius: 4px;
@@ -17,49 +21,134 @@ button {
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+
+#pick-directory{
+    align-self: flex-end;
+    color: #091a12;
+    font-weight: 600;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    
+}
 button:hover {
-    background-color: #0056b3;
+    background-color: #4b957e;
     transform: translateY(-2px);
+    font-weight: 500;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .breadcrumb-container {
     padding: 10px 20px;
-    background-color: #f8f9fa;
+    background-color: #464040;
+
     border-bottom: 1px solid #e9ecef;
     margin-bottom: 10px;
     display: flex;
+    justify-content: center; /* Center the breadcrumb horizontally */
     align-items: center;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    color: #f1f1f1;
 }
 
 .breadcrumb-item {
     cursor: pointer;
-    color: #007bff;
+    color: #f1f2f3;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .breadcrumb-item:hover {
-    color: #0056b3;
+    color: #fcc8fa;
+    font-weight: 600;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 .explorer-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column; /* Stack the views vertically */
     height: calc(100vh - 60px);
     overflow: hidden;
+    background-color: #464040;
+    padding: 0px;
+
 }
 
-.folder-view,
+
 .selection-view {
-    width: 50%;
+    flex: 1; /* Make both views take equal vertical space */
     padding: 20px;
     overflow-y: auto;
-    background-color: white;
+    background-color: #464040;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    color: #ffffff;
+}
+
+.folder-view{
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+
+
+    
+}
+
+#folder-list{
+    overflow-y: auto;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    padding-left: 50px;
+    padding-right: 50px;
+
+
+}
+
+.selection-view{
+    background-color: #c5c1c5;
+} 
+
+.selection-view button{
+    background-color: #242121;
+}
+
+.selection-view button:hover{
+    background-color: #436f77;
+}
+
+.selection-view h2{
+    color: #436f77;
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.folder-view h2{
+    color: #e9dede;
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0px;
+}
+
+.selection-view label{
+    position: absolute;
+    left: 80%;
+    background-color: #b9bbbc;
+    color: #290103;
+    padding: 10px;
+    border-radius: 10px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    transition: transform 0.5s ease;
+}
+
+.selection-view label:hover{
+    background-color: #3f051b;
+    color: #f1f1f1;
+    transform: scale(1.15);
+}
+
+.folder-view::-webkit-scrollbar,
+.selection-view::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for WebKit-based browsers */
 }
 
 .folder-view {
-    border-right: 1px solid #e9ecef;
+    border-bottom: 1px solid #e9ecef;
 }
 
 ul {
@@ -73,15 +162,20 @@ ul li {
     display: flex;
     align-items: center;
     transition: background-color 0.3s ease, transform 0.3s ease;
-    padding: 8px;
+    padding:5px;
     border-radius: 4px;
     cursor: pointer;
+    background-color: #c5c1c5;
+    box-shadow: rgba(206, 206, 212, 0.449) 0px 6px 12px -2px, rgba(186, 183, 183, 0.712) 0px 3px 7px -3px;}
+    
+
+
+ul li span{
+    display: flex;
+    gap: 10px;
 }
 
-ul li:hover {
-    background-color: #f1f1f1;
-    transform: translateY(-2px);
-}
+
 
 .folder-item {
     cursor: pointer;
@@ -89,6 +183,7 @@ ul li:hover {
     margin-left: 10px;
     display: flex;
     align-items: center;
+    padding: 2px;
 }
 
 .folder-item:hover {
@@ -103,7 +198,7 @@ input[type="checkbox"] {
 .selected-item {
     display: flex;
     align-items: center;
-    padding: 8px;
+    padding: 5px;
     margin: 5px 0;
     background-color: #e9ecef;
     border-radius: 4px;
@@ -115,16 +210,21 @@ input[type="checkbox"] {
     transform: translateY(-2px);
 }
 
-.select-all-container {
+.select-all-label {
     display: flex;
+    justify-content:flex-start;
     align-items: center;
     margin-bottom: 15px;
-}
-
-.select-all-label {
+    background-image: linear-gradient(to left,#3f051b,#091a12);
+    color: #ffffff;
     margin-left: 5px;
     font-weight: bold;
+
 }
+
+
+
+
 
 /* Folder and File Icons */
 .folder-icon::before, .file-icon::before {
@@ -155,7 +255,64 @@ ul li:hover::before {
     transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-.folder-item:hover, .selected-item:hover {
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
+.folder-item:hover, .selected-item:hover{
+
+    color: #ffffff;
+    border-radius: 20px;
+   
+    
 }
+
+ul li:hover {
+    background-color: rgb(7, 39, 49);
+    box-shadow: rgba(143, 143, 145, 0.658) 0px 6px 12px -2px, rgba(120, 119, 119, 0.3) 0px 3px 7px -3px;
+    padding: 6px;
+    color: #e1e0e0;
+
+
+
+}
+
+
+.select-all-label:hover {
+    color: #e9ecef;
+    
+}
+
+#selected-list{
+    padding-left:100px;
+    padding-right:100px;
+    height:500px;
+
+
+    overflow-y: auto;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+
+
+
+
+}
+
+
+.selection-view ul li{
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #c5c1c5;
+    box-shadow: rgba(66, 66, 92, 0.344) 0px 6px 12px -2px, rgba(41, 31, 31, 0.36) 0px 3px 7px -3px;
+}
+
+.selection-view ul li:hover{
+    background-color: rgb(7, 39, 49);
+    box-shadow: rgba(18, 18, 19, 0.658) 0px 6px 12px -2px, rgba(4, 4, 4, 0.3) 0px 3px 7px -3px;
+    padding: 6px;
+    color: #e1e0e0;
+}
+
+.selection-view ul{
+    overflow-y: auto;
+    scrollbar-width: none;
+
+}
+
+
+

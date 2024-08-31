@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Local Directory Explorer</title>
     <link rel="stylesheet" href="index1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
 <button id="pick-directory">Pick a Directory</button>
@@ -12,14 +14,12 @@
     <span id="breadcrumb"></span>
 </div>
 <div class="explorer-container">
-
-  
     <div class="folder-view">
-
+        <h2>Folder Items</h2>
         <ul id="folder-list"></ul>
     </div>
     <div class="selection-view">
-        <h3>Selected Items</h3>
+        <h2>Selected Items</h2>
         <button id="remove-selected">Remove Selected</button>
         <label>
             <input type="checkbox" id="select-all-right"> Select All
