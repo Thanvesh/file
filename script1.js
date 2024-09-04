@@ -339,6 +339,14 @@ function deselectItemAndContents(item) {
                 deselectItemAndContents(child);
             }
         }
+        
+
+        const parentNode = findParentNodeByPath(folderStructure, node.path);
+        if (parentNode) {
+            updateNodeState(parentNode);
+        }
+        console.log(node)
+
     }
 }
 
@@ -358,6 +366,7 @@ function updateNodeState(node) {
 function renderSelectedView() {
     const selectedList = document.getElementById('selected-list');
     selectedList.innerHTML = '';
+    console.log(folderStructure)
     renderSelectedNodes(folderStructure, selectedList);
     updateSelectAllRightState()
 
@@ -370,6 +379,7 @@ function renderSelectedNodes(nodes, parentElement) {
             // Add the folder itself when it's fully checked
             if (node.type === 'directory'|| node.type=='file') {
                 const li = document.createElement('li');
+                selected=true
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';              
                 checkbox.onchange = (e) => handleRightCheckboxChange(e, node);
@@ -386,6 +396,7 @@ function renderSelectedNodes(nodes, parentElement) {
                     const checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
                     checkbox.checked=false
+                    selected=true
                     checkbox.onchange = (e) => handleRightCheckboxChange(e, child);
                     li.appendChild(checkbox);
                     li.appendChild(document.createTextNode(child.path));
@@ -393,6 +404,7 @@ function renderSelectedNodes(nodes, parentElement) {
                 }
             });
         }
+        
     });
     
 
@@ -401,63 +413,64 @@ function renderSelectedNodes(nodes, parentElement) {
 async function handleRightCheckboxChange(event, node) {
     if (event.target.checked) {
         await selectItemAndContents(node); // Select item and its contents
+        node.selected = true;
+
+        node.checked=true
 
     } else {
-        deselectItemAndContents(node);
-    }
 
+        node.checked=false
+    }
     updateSelectAllRightState()
+    
 
 
  
 
 }
-
-document.getElementById('select-all-right').onclick = (e) => {
-
-
+document.getElementById('select-all-right').onclick = async(e) => {
     const check = e.target.checked;
-
     const selectedList = document.getElementById('selected-list');
-    const checkboxes = selectedList.querySelectorAll('input[type="checkbox"]');
-    
-     checkboxes.forEach(async (checkbox) => {
-        checkbox.checked = check;
-        const itemPath = checkbox.nextSibling.textContent;
-        const item = findNodeByPath(folderStructure, itemPath);
+    const checkboxes = selectedList.querySelectorAll('input[type="checkbox"]:not(#select-all-right)');
 
+    for (const checkbox of checkboxes) {
+        const itemPath = checkbox.nextSibling.textContent.trim();
+        const item = findNodeByPath(folderStructure, itemPath);
+        console.log("selectall",item)
         if (item) {
             if (check) {
-                await selectItemAndContents(item); // Select item and its contents
+                item.checked=true
+                checkbox.checked=true
+               await selectItemAndContents(item, true); // Select item and all its contents
             } else {
-                deselectItemAndContents(item); // Deselect item and its contents
+                item.checked = false;
+                checkbox.checked=false
+                deselectItemAndContents(item); // Deselect item and all its contents
             }
         }
-    });
-    
+    }
 
-
-
+    updateSelectAllRightState(); // Update the select-all-right checkbox state
 };
+
 
 
 
 document.getElementById('remove-selected').onclick = () => {
     const selectedList = document.getElementById('selected-list');
-    const checkboxes = selectedList.querySelectorAll('input[type="checkbox"]');
-    
-    checkboxes.forEach( checkbox => {
+    const checkboxes = selectedList.querySelectorAll('input[type="checkbox"]:not(#select-all-right)');
+
+    checkboxes.forEach(checkbox => {
         if (checkbox.checked) {
-            const itemPath = checkbox.nextSibling.textContent;
+            const itemPath = checkbox.nextSibling.textContent.trim();
             const item = findNodeByPath(folderStructure, itemPath);
-            if (item) {
+            if (item && item.checked) {
                 deselectItemAndContents(item);
+                item.checked=false
             }
+
         }
     });
 
-    updateSelectionStates();
-    renderFolderView();
-    renderSelectedView() 
-
-}
+    updateSelectionStates(); // Update the selection states in the folder structure
+};
