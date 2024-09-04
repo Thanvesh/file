@@ -332,6 +332,8 @@ function deselectItemAndContents(item) {
     const node = findNodeByPath(folderStructure, item.path);
     if (node) {
         node.selected = false;
+        node.indeterminate= false;
+
         if (node.type === 'directory') {
             for (const child of node.children) {
                 deselectItemAndContents(child);
@@ -448,12 +450,14 @@ document.getElementById('remove-selected').onclick = () => {
         if (checkbox.checked) {
             const itemPath = checkbox.nextSibling.textContent;
             const item = findNodeByPath(folderStructure, itemPath);
-            if (item.checked) {
+            if (item) {
                 deselectItemAndContents(item);
             }
         }
     });
-    
+
+    updateSelectionStates();
     renderFolderView();
     renderSelectedView() 
+
 }
