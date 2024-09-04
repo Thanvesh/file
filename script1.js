@@ -350,6 +350,22 @@ function deselectItemAndContents(item) {
     }
 }
 
+function  deselectItemAndContentstwo(item){
+
+    const node = findNodeByPath(folderStructure, item.path);
+
+        node.selected = false;
+        node.indeterminate= false;
+
+        if (node.type === 'directory') {
+            for (const child of node.children) {
+                deselectItemAndContents(child);
+            }
+        }
+
+
+}
+
 function updateSelectionStates() {
     folderStructure.forEach(updateNodeState);
     renderFolderView();  // Make sure the folder view reflects the correct state
@@ -445,7 +461,6 @@ document.getElementById('select-all-right').onclick = async(e) => {
             } else {
                 item.checked = false;
                 checkbox.checked=false
-                deselectItemAndContents(item); // Deselect item and all its contents
             }
         }
     }
@@ -465,7 +480,7 @@ document.getElementById('remove-selected').onclick = () => {
             const itemPath = checkbox.nextSibling.textContent.trim();
             const item = findNodeByPath(folderStructure, itemPath);
             if (item && item.checked) {
-                deselectItemAndContents(item);
+                deselectItemAndContentstwo(item);
                 item.checked=false
             }
 
